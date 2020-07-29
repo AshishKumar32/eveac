@@ -1,0 +1,70 @@
+{% load static %}
+
+<html lang="en">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link rel="stylesheet" href="{% static 'eve/css/canvas.css' %}" />
+    <title>MyML - Eve</title>
+</head>
+<body>
+  {% if user.is_authenticated %}
+  Hello, {{user.first_name}}
+  <a href="logout"><h3 align=right>Logout</h3></a>
+  {% else %}
+  <a href=login><h3 align=right>Login</h3></a>
+  {% endif %}
+
+<h1>
+    Hello, world. You're at the Eve home.
+</h1>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src = "{% static 'eve/js/canvas.js' %}"></script>
+
+<canvas id="myCanvas" width="200" height="100"
+style="border:1px solid #c3c3c3;">
+Your browser does not support the canvas element.
+</canvas>
+<br><br>
+<div ng-app="myApp" ng-init="display=0" ng-controller="myCtrl">
+<button onclick=UploadPic() ng-click="myFunc()">Submit Drawing</button>
+
+    <div ng-show="showMe">
+    <div>
+        Was the prediction correct:
+        <input type="radio" ng-model="myVar" value="Yes" onclick="correct_prediction()">Yes
+        <input type="radio" ng-model="myVar" value="No">No
+    </div>
+      <div ng-switch="myVar">
+        <div ng-switch-when="Yes">
+           <p>Thank You.</p>
+        </div>
+        <div ng-switch-when="No">
+           
+           <p>What did you enter.</p>
+           <div id="feedback">
+           <input type="text" id="userSuggestion" placeholder="Enter your number">
+               <button onclick=feedback() ng-click="myFunc()">Submit</button>
+           </div>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div align=right id="stats">
+        
+      </div>
+      <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+          $scope.showMe = false;
+          $scope.myFunc = function() {
+            $scope.showMe = !$scope.showMe;
+          }
+        });
+        </script>
+<br><br>
+<div><h1 id="prediction"></h1></div>
+</body>
+</html>

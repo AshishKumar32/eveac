@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Registration</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+<body>
+    <form id="register">
+        {% csrf_token %}
+        <input type="text" name="first_name" placeholder="First Name"><br>
+        <input type="text" name="last_name" placeholder="Last Name"><br>
+        <input type="text" name="username" placeholder="User Name"><br>
+        <input type="email" name="email" placeholder="Email Id"><br>
+        <input type="password" name="password1" placeholder="Password"><br>
+        <input type="password" name="password2" placeholder="Confirm Password"><br>
+        <input type="submit">
+    </form>
+
+    <div>
+        {% for message in messages %}
+        <h3> {{message}} </h3>
+        {% endfor %}
+    </div>
+</body>
+<script type="text/javascript">
+    $(document).on('submit','#register,function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'/register',
+            data:{
+                first_name:$('#first_name').val(),
+                last_name:$('#last_name').val(),
+                username:$('#username').val(),
+                email:$('#eamil').val(),
+                password:$('#password').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+            success:function(){
+                alert("created user");
+            }
+            
+        });
+    });
+</script>
+</html>
